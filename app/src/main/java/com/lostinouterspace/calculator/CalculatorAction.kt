@@ -7,7 +7,9 @@ package com.lostinouterspace.calculator
  * `object` doesn't have a constructor => used when no state needed (data class cannot be used for that, as at least one c'tor arg. needed)
  */
 sealed class CalculatorAction {
-    data class Number(val value: Int) : CalculatorAction()
+    data class Number(val value: String) : CalculatorAction()
+    data class Operator(val value: String) : CalculatorAction()
+    data object Calculate : CalculatorAction()
     data object Clear : CalculatorAction()
-    data object None : CalculatorAction()
+    data object Delete : CalculatorAction()
 }

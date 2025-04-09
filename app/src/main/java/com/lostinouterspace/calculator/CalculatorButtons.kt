@@ -22,17 +22,16 @@ fun CalculatorButtons(
     Log.d("Calculator", "CalculatorButtons - Composing buttons...")
 
     val grid = listOf(
-        listOf('C', 'd', 's', 'm'),
-        listOf('7', '8', '9', '/'),
-        listOf('4', '5', '6', '*'),
-        listOf('1', '2', '3', '-'),
-        listOf('0', '.', '=', '+'),
+        listOf("C", "⌫", "%", "/"),
+        listOf("7", "8", "9", "*"),
+        listOf("4", "5", "6", "-"),
+        listOf("1", "2", "3", "+"),
+        listOf("0", ".", "="),
     )
     val nRows = grid.size
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        // horizontalAlignment = Alignment.CenterHorizontally
     ) {
         repeat(nRows) { indexRow ->
             val nCols = grid[indexRow].size
@@ -42,17 +41,19 @@ fun CalculatorButtons(
             ) {
                 repeat(nCols) { indexCol ->
                     val cell = grid[indexRow][indexCol]
-                   val action: CalculatorAction = when(cell) {
-                        in '0'..'9' -> CalculatorAction.Number(cell.digitToInt())
-                       'C' -> CalculatorAction.Clear
-                        else -> CalculatorAction.None
+                   val action: CalculatorAction = when (cell) {
+                       "+", "-", "*", "/", "%" -> CalculatorAction.Operator(cell)
+                       "=" -> CalculatorAction.Calculate
+                       "C" -> CalculatorAction.Clear
+                       "⌫" -> CalculatorAction.Delete
+                        else -> CalculatorAction.Number(cell)
                     }
 
                     CalculatorButton(
-                        text = cell.toString(),
+                        text = cell,
                         modifier = Modifier
                             .size(100.dp)
-                            .weight(1.0f)
+                            .weight(if (indexRow == nRows - 1 && indexCol == nCols - 1) 2.0f else 1.0f)
                     ) {
                         onClick(action)
                     }

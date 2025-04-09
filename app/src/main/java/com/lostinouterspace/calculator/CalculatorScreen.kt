@@ -10,13 +10,11 @@ import androidx.compose.ui.unit.sp
 fun CalculatorScreen(state: CalculatorState, modifier: Modifier = Modifier) {
     Log.d("Calculator", "CalculatorScreen - displaying screen...")
 
-    val operand1 = state.operand1?.toString() ?: "_"
-    val operand2 = state.operand2?.toString() ?: "_"
-    val operator = state.operator?.toString() ?: "_"
-
+    // without line-height, digits from subsequent rows will run into each other due to font-size
     Text(
-        "$operand1 $operator $operand2",
+        "${state.operand1} ${state.operator} ${state.operand2}",
         modifier = modifier,
-        fontSize = 64.sp
+        fontSize = 64.sp,
+        lineHeight = 64.sp
     )
 }
