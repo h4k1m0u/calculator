@@ -20,7 +20,7 @@ class CalculatorViewModel : ViewModel() {
     fun onClick(action: CalculatorAction) {
         when (action) {
             is CalculatorAction.Number -> enterNumber(action.value)
-            is CalculatorAction.Operator -> enterOperation(action.value)
+            is CalculatorAction.Operator -> enterOperator(action.value)
             is CalculatorAction.Calculate -> calculate()
             is CalculatorAction.Clear -> clear()
             is CalculatorAction.Delete -> delete()
@@ -51,11 +51,15 @@ class CalculatorViewModel : ViewModel() {
             state = state.copy(operand1 = state.operand1.dropLast(1))
             return
         }
+        else if (state.operand2.isEmpty()) {
+            state = state.copy(operator = "")
+            return
+        }
 
         state = state.copy(operand2 = state.operand2.dropLast(1))
     }
 
-    private fun enterOperation(value: String) {
+    private fun enterOperator(value: String) {
         state = state.copy(operator = value)
     }
 
@@ -66,7 +70,7 @@ class CalculatorViewModel : ViewModel() {
         val result: Double = when (state.operator) {
             "+" -> state.operand1.toDouble() + state.operand2.toDouble()
             "-" -> state.operand1.toDouble() - state.operand2.toDouble()
-            "*" -> state.operand1.toDouble() * state.operand2.toDouble()
+            "x" -> state.operand1.toDouble() * state.operand2.toDouble()
             "/" -> state.operand1.toDouble() / state.operand2.toDouble()
             "%" -> state.operand1.toDouble() % state.operand2.toDouble()
             else -> 0.0

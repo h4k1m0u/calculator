@@ -11,27 +11,41 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lostinouterspace.calculator.ui.theme.CalculatorTheme
+import com.lostinouterspace.calculator.ui.theme.SaladGreen
 
 class MainActivity : ComponentActivity() {
     // viewModels() returns a Lazy delegate (i.e. calculated only once)
     private val viewModel: CalculatorViewModel by viewModels()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             CalculatorTheme {
-                Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        TopAppBar(
+                            title = { Text("Calculator") }
+                        )
+                    }
+                ) { innerPadding ->
+                    val paddingContainer = 10.dp
+
                     Column(
                         modifier = Modifier
                             .padding(innerPadding)
                             .fillMaxSize()
-                            .background(Color.Red),
+                            .background(Color.LightGray),
                         // verticalArrangement = Arrangement.Center,
                         // horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -43,16 +57,16 @@ class MainActivity : ComponentActivity() {
                             state = viewModel.state,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(Color.Green)
-                                .padding(10.dp)
+                                .background(SaladGreen)
+                                .padding(paddingContainer)
                         )
 
                         CalculatorButtons(
                             onClick = { action: CalculatorAction -> viewModel.onClick(action) },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(Color.Blue)
-                                .padding(10.dp)
+                                .background(Color.DarkGray)
+                                .padding(paddingContainer)
                         )
                     }
                 }
